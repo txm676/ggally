@@ -234,7 +234,7 @@ ggally_cor <- function(
   data,
   mapping,
   alignPercent = 0.6,
-  method = "pearson", use = "complete.obs",
+  method = "kendall", use = "complete.obs",
   corAlignPercent = NULL, corMethod = NULL, corUse = NULL,
   ...
 ){
@@ -264,7 +264,7 @@ ggally_cor <- function(
     use <- useOptions[use]
   }
 
-  cor_fn <- function(x, y) {
+  cor_fn <- function(x, y, method, use) {
     # also do ddply below if fn is altered
     cor(x, y, method = method, use = use)
   }
@@ -361,7 +361,7 @@ ggally_cor <- function(
       data.frame(x = xData, y = yData, color = colorData),
       "color",
       function(dt) {
-        cor_fn(dt$x, dt$y)
+        cor_fn(dt$x, dt$y, method, use)
       }
     )
     colnames(cord)[2] <- "correlation"
@@ -395,7 +395,7 @@ ggally_cor <- function(
 
     # print(cord)
     p <- ggally_text(
-      label   = str_c("Cor : ", signif(cor_fn(xVal, yVal), 3)),
+      label   = str_c("Cor : ", signif(cor_fn(xVal, yVal, method, use), 3)),
       mapping = mapping,
       xP      = 0.5,
       yP      = 0.9,
@@ -449,7 +449,7 @@ ggally_cor <- function(
       label = paste(
         "Corr:\n",
         signif(
-          cor_fn(xVal, yVal),
+          cor_fn(xVal, yVal, method, use),
           3
         ),
         sep = "", collapse = ""
