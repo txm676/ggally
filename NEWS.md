@@ -1,8 +1,6 @@
 GGally 1.3.3
 ----------------
 
-git test
-
 `ggpairs` and `ggduo`
 
 * Become ggplot2 v2.2.2 compliant (#266)
